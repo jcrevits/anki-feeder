@@ -15,7 +15,7 @@ defmodule AnkiFeeder.Mnemo.Term do
   @doc false
   def changeset(term, attrs) do
     term
-    |> cast(attrs, [:kanji, :reading, :definition, :misc])
-    |> validate_required([:kanji, :reading, :definition])
+    |> cast(attrs, [:kanji, :kanji_others, :reading, :definition, :misc])
+    |> validate_required([:kanji, :kanji_others, :reading, :definition])
   end
 end

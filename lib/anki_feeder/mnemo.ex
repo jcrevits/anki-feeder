@@ -59,53 +59,6 @@ defmodule AnkiFeeder.Mnemo do
     |> Repo.insert()
   end
 
-  @doc """
-  Updates a term.
-
-  ## Examples
-
-      iex> update_term(term, %{field: new_value})
-      {:ok, %Term{}}
-
-      iex> update_term(term, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_term(%Term{} = term, attrs) do
-    term
-    |> Term.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a term.
-
-  ## Examples
-
-      iex> delete_term(term)
-      {:ok, %Term{}}
-
-      iex> delete_term(term)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_term(%Term{} = term) do
-    Repo.delete(term)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking term changes.
-
-  ## Examples
-
-      iex> change_term(term)
-      %Ecto.Changeset{data: %Term{}}
-
-  """
-  def change_term(%Term{} = term, attrs \\ %{}) do
-    Term.changeset(term, attrs)
-  end
-
   def lookup_term(search) do
     lookup_term_exact(search)
   end

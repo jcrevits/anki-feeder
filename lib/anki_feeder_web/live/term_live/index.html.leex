@@ -19,7 +19,6 @@
 
         <td>
           <span><%= live_redirect "Show", to: Routes.term_show_path(@socket, :show, term) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: term.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
     <% end %>
