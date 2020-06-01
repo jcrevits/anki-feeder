@@ -1,0 +1,27 @@
+<h1>Listing Terms</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Kanji</th>
+      <th>Reading</th>
+      <th>Definition</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="terms">
+    <%= for term <- @terms do %>
+      <tr id="term-<%= term.id %>">
+        <td><%= term.kanji %></td>
+        <td><%= term.reading %></td>
+        <td><%= term.definition %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.term_show_path(@socket, :show, term) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: term.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

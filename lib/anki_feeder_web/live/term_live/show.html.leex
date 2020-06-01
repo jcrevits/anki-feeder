@@ -1,0 +1,27 @@
+<h1>Show Term</h1>
+
+<ul>
+
+  <li>
+    <strong>Kanji:</strong>
+    <%= @term.kanji %>
+  </li>
+
+  <li>
+    <strong>Other forms:</strong>
+    <%= @term.kanji_others %>
+  </li>
+
+  <li>
+    <strong>Reading:</strong>
+    <%= @term.reading %>
+  </li>
+
+  <li>
+    <strong>Definition:</strong>
+    <%= @term.definition %>
+  </li>
+
+</ul>
+
+<span><%= live_redirect "Back", to: Routes.term_index_path(@socket, :index) %></span>
