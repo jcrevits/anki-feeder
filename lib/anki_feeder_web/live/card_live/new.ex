@@ -26,15 +26,16 @@ defmodule AnkiFeederWeb.CardLive.New do
       if results && length(results) == 1 do
         prepare_card(socket, List.first(results).id)
       else
-        socket
+        assign(socket,
+          examples: [],
+          selected_term: nil
+        )
       end
 
     socket =
       assign(socket,
         term_results: results,
         search_term: search,
-        examples: [],
-        selected_term: nil,
         selected_example: %{id: nil, japanese: nil, english: nil}
       )
 
