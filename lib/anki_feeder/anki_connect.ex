@@ -41,11 +41,11 @@ defmodule AnkiFeeder.Mnemo.AnkiConnect do
     case HTTPoison.post(@anki_connect_url, Jason.encode!(payload), @json_headers) do
       {:ok, %HTTPoison.Response{body: body}} ->
         case Jason.decode!(body) do
+          %{"error" => nil} ->
+            :ok
+
           %{"error" => reason} ->
             {:error, reason}
-
-          _ ->
-            :ok
         end
 
       {:error, reason} ->
