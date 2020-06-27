@@ -23,11 +23,15 @@
             <%= for term <- results do %>
               <div class="row term-search-row" phx-click="use-term" phx-value-term_id="<%= term.id %>">
                 <div class="column">
-                  <strong><%= term.kanji %></strong><br />
-                  <em><%= term.reading %></em>
-                </div>
-                <div class="column">
-                  <%= term.definition %>
+                  <div class="row">
+                    <strong><%= term.kanji %></strong>
+                  </div>
+                  <div class="row">
+                    <em><%= term.reading %></em>
+                  </div>
+                  <div class="row">
+                    <span><%= term.definition %></span>
+                  </div>
                 </div>
               </div>
             <% end %>
