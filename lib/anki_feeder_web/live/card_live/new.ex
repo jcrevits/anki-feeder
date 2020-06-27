@@ -69,7 +69,13 @@ defmodule AnkiFeederWeb.CardLive.New do
         {:noreply,
          socket
          |> put_flash(:info, "Card added to Anki!")
-         |> assign(search_term: nil)}
+         |> assign(
+           search_term: nil,
+           term_results: nil,
+           examples: [],
+           selected_term: nil,
+           selected_example: %{id: nil, japanese: nil, english: nil}
+         )}
 
       {:error, reason} ->
         {:noreply,
