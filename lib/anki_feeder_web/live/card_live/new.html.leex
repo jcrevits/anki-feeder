@@ -1,54 +1,49 @@
-<div class="container">
-  <div class="row">
-
-    <div class="column column-20">
+<div class="flex flex-row flex-evenly">
+  <div class="flex flex-col">
+    <div id="search-box w-auto">
       <form phx-submit="search-terms">
         <input type="text"
-               name="search"
-               value="<%= @search_term %>"
-               placeholder="search for a word"
-               autofocus="on"
-               autocomplete="off"
-               phx-focus="lv:clear-flash"
-               phx-debounce="250" />
+                name="search"
+                value="<%= @search_term %>"
+                placeholder="search for a word"
+                autofocus="on"
+                autocomplete="off"
+                phx-focus="lv:clear-flash"
+                phx-debounce="250" />
       </form>
+    </div>
 
-      <div class="container">
-        <%= case @term_results do %>
-          <% nil -> %>
+    <div id="search-results">
+      <%= case @term_results do %>
+        <% nil -> %>
 
-          <% [] -> %> No results found
+        <% [] -> %> No results found
 
-          <% results -> %>
-            <%= for term <- results do %>
-              <div class="row term-search-row" phx-click="use-term" phx-value-term_id="<%= term.id %>">
-                <div class="column">
-                  <div class="row">
-                    <strong><%= term.kanji %></strong>
-                  </div>
-                  <div class="row">
-                    <em><%= term.reading %></em>
-                  </div>
-                  <div class="row">
-                    <span><%= term.definition %></span>
-                  </div>
+        <% results -> %>
+          <%= for term <- results do %>
+            <div class="row term-search-row" phx-click="use-term" phx-value-term_id="<%= term.id %>">
+              <div class="column">
+                <div class="row">
+                  <strong><%= term.kanji %></strong>
+                </div>
+                <div class="row">
+                  <em><%= term.reading %></em>
+                </div>
+                <div class="row">
+                  <span><%= term.definition %></span>
                 </div>
               </div>
-            <% end %>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="column">
-      <%= live_component(@socket, AnkiFeederWeb.Card.ExampleComponent,
-                         selected_example: @selected_example,
-                         examples: @examples) %>
-    </div>
-
-    <div class="column">
-      <%= live_component(@socket, AnkiFeederWeb.Card.AddCardComponent,
-                         selected_term: @selected_term,
-                         selected_example: @selected_example) %>
+            </div>
+          <% end %>
+      <% end %>
     </div>
   </div>
+
+  <%= live_component(@socket, AnkiFeederWeb.Card.ExampleComponent,
+                      selected_example: @selected_example,
+                      examples: @examples) %>
+
+  <%= live_component(@socket, AnkiFeederWeb.Card.AddCardComponent,
+                      selected_term: @selected_term,
+                      selected_example: @selected_example) %>
 </div>

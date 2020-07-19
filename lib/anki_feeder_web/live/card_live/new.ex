@@ -44,7 +44,12 @@ defmodule AnkiFeederWeb.CardLive.New do
 
   @impl true
   def handle_event("use-term", %{"term_id" => term_id}, socket) do
-    {:noreply, prepare_card(socket, term_id)}
+    socket =
+      socket
+      |> prepare_card(term_id)
+      |> assign(term_results: nil)
+
+    {:noreply, socket}
   end
 
   @impl true
