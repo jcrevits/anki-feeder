@@ -33,11 +33,11 @@ defmodule AnkiFeeder.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.1"},
+      {:phoenix, "~> 1.5"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.13.2", override: true},
+      {:phoenix_live_view, "~> 0.14.4", override: true},
       {:floki, ">= 0.0.0", only: :test},
       {:nimble_csv, "~> 0.7"},
       {:phoenix_html, "~> 2.11"},
