@@ -9,6 +9,17 @@ defmodule AnkiFeeder.Mnemo.AnkiConnect do
   @deck_name "自分の単語"
   @model_name "自分の日本語"
 
+  @spec version() :: {:ok, nil} | {:error, String.t()}
+  def version() do
+    payload = %{
+      action: "version",
+      version: 6
+    }
+
+    get_request(payload)
+  end
+
+  @spec create_note(map) :: {:ok, nil} | {:error, String.t()}
   def create_note(%{
         "kanji" => kanji,
         "reading" => reading,
@@ -38,11 +49,16 @@ defmodule AnkiFeeder.Mnemo.AnkiConnect do
       }
     }
 
+    get_request(payload)
+  end
+
+  @spec get_request(map) :: {:ok, nil} | {:error, String.t()}
+  defp get_request(payload) do
     case HTTPoison.post(@anki_connect_url, Jason.encode!(payload), @json_headers) do
       {:ok, %HTTPoison.Response{body: body}} ->
         case Jason.decode!(body) do
           %{"error" => nil} ->
-            :ok
+            {:ok, nil}
 
           %{"error" => reason} ->
             {:error, reason}

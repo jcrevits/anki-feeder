@@ -8,6 +8,7 @@ defmodule AnkiFeederWeb.CardLive.New do
   def mount(_params, _session, socket) do
     socket =
       assign(socket,
+        anki_running?: is_anki_running(socket),
         search_term: nil,
         selected_term: nil,
         term_results: nil,
@@ -71,7 +72,7 @@ defmodule AnkiFeederWeb.CardLive.New do
       Map.take(new_card, ["kanji", "reading", "definition", "ja_example", "en_example"])
 
     case AnkiConnect.create_note(card_details) do
-      :ok ->
+      {:ok, _} ->
         {:noreply,
          socket
          |> put_flash(:info, "Card added to Anki!")
@@ -88,6 +89,10 @@ defmodule AnkiFeederWeb.CardLive.New do
          socket
          |> put_flash(:error, "Error - #{inspect(reason)}")}
     end
+  end
+
+  defp is_anki_running(socket) do
+    connected?(socket) and {:ok, nil} == AnkiConnect.version()
   end
 
   defp prepare_card(socket, term_id) do
