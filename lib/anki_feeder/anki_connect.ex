@@ -16,7 +16,14 @@ defmodule AnkiFeeder.Mnemo.AnkiConnect do
       version: 6
     }
 
-    get_request(payload)
+    case request(payload) do
+      {:ok, _response} ->
+        {:ok, nil}
+
+      error_response ->
+        error_response
+    end
+  end
   end
 
   @spec create_note(map) :: {:ok, nil} | {:error, String.t()}
@@ -49,23 +56,29 @@ defmodule AnkiFeeder.Mnemo.AnkiConnect do
       }
     }
 
-    get_request(payload)
+    request(payload)
   end
 
-  @spec get_request(map) :: {:ok, nil} | {:error, String.t()}
-  defp get_request(payload) do
+  @spec request(map) :: {:ok, any()} | {:error, String.t()}
+  defp request(payload) do
     case HTTPoison.post(@anki_connect_url, Jason.encode!(payload), @json_headers) do
       {:ok, %HTTPoison.Response{body: body}} ->
         case Jason.decode!(body) do
-          %{"error" => nil} ->
-            {:ok, nil}
+          %{"error" => nil} = decoded_body ->
+            {:ok, decoded_body}
 
           %{"error" => reason} ->
             {:error, reason}
+
+          _ ->
+            {:error, "Could not decode response."}
         end
 
       {:error, reason} ->
         {:error, reason}
+
+      _ ->
+        {:error, "Request error."}
     end
   end
 end

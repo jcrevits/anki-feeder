@@ -91,7 +91,12 @@ defmodule AnkiFeederWeb.CardLive.New do
   end
 
   defp is_anki_running(socket) do
-    connected?(socket) and {:ok, nil} == AnkiConnect.version()
+    with true <- connected?(socket),
+         {:ok, nil} <- AnkiConnect.version() do
+      true
+    else
+      _ -> false
+    end
   end
 
   defp prepare_card(socket, term_id) do
