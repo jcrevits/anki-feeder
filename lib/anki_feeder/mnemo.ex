@@ -90,6 +90,6 @@ defmodule AnkiFeeder.Mnemo do
 
     query = from e in Example, where: ilike(e.japanese, ^wild_search), select: e
 
-    query |> limit(20) |> Repo.all()
+    query |> limit(10) |> Repo.all()
   end
 end

@@ -4,23 +4,25 @@ defmodule AnkiFeederWeb.Card.ExampleComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <div class="flex flex-col">
+    <div class="flex flex-col flex-shrink px-20">
       <%= if length(@examples) > 0 do %>
         <em>Found <%= length(@examples) %>+ examples.</em>
       <% end %>
 
       <%= for example <- @examples do %>
         <hr class="example-hr" />
-        <div class="row term-search-row <%= selected_class(@selected_example, example) %>"
+        <div class="row term-search-row py-2 <%= selected_class(@selected_example, example) %>"
             phx-click="use-example"
             phx-value-example_id="<%= example.id %>"
             phx-value-japanese="<%= example.japanese %>"
             phx-value-english="<%= example.english %>" >
-          <div class="row">
-            <%= example.japanese %>
-          </div>
-          <div class="row">
-            <%= example.english %>
+          <div class="column">
+            <div class="row">
+              <%= example.japanese %>
+            </div>
+            <div class="row">
+              <%= example.english %>
+            </div>
           </div>
         </div>
       <% end %>
