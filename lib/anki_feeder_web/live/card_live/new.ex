@@ -48,7 +48,6 @@ defmodule AnkiFeederWeb.CardLive.New do
     socket =
       socket
       |> prepare_card(term_id)
-      |> assign(term_results: nil)
 
     {:noreply, socket}
   end
