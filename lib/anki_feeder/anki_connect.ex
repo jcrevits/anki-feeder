@@ -24,6 +24,22 @@ defmodule AnkiFeeder.Mnemo.AnkiConnect do
         error_response
     end
   end
+
+  @spec deck_names_and_ids() :: {:ok, list(map)} | {:error, String.t()}
+  def deck_names_and_ids() do
+    payload = %{
+      action: "deckNamesAndIds",
+      version: 6
+    }
+
+    case request(payload) do
+      {:ok, response} ->
+        response["result"]
+        |> Enum.map(fn {name, id} -> %{id: id, name: name} end)
+
+      error_response ->
+        error_response
+    end
   end
 
   @spec create_note(map) :: {:ok, nil} | {:error, String.t()}

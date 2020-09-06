@@ -19,6 +19,8 @@ defmodule AnkiFeederWeb.Router do
 
     live "/", CardLive.New, :new
 
+    live "/decks", DeckLive.Index, :index
+
     live "/terms", TermLive.Index, :index
     live "/terms/:id", TermLive.Show, :show
   end
