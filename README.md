@@ -3,7 +3,6 @@ An easier way to add Japanese/English cards to Anki. It uses Phoenix/Elixir - my
 
 ## Setup - AnkiFeeder
 - run `mix setup`
-- unzip `examples.tsv.zip` and `JMdict.xml.zip`
 - run `mix ecto.setup` to insert the dictionary entries and the example sentences (this will take a while)
 - start the server with `mix phx.server`
 

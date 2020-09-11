@@ -6,11 +6,12 @@ import SweetXml
 require Logger
 
 Logger.info("== Seeding JMdict content ==")
+
 Logger.info("Reading JMdict file")
 
 contents =
-  case File.read("JMdict.xml") do
-    {:ok, content} ->
+  case :zip.extract('priv/data/JMdict.zip', [:memory]) do
+    {:ok, [{_filename, content}]} ->
       content
 
     {:error, reason} ->
@@ -19,6 +20,7 @@ contents =
 
 Logger.info("Parsing XML content")
 
+# TODO - this uses way too much memory, need to optimize it with a stream
 xml_content =
   xpath(
     contents,
@@ -52,6 +54,7 @@ term_structs =
 
 Logger.info("Inserting content")
 
+# TODO - unoptimized, needs chunked stream
 for term <- term_structs do
   Repo.insert!(term)
 end

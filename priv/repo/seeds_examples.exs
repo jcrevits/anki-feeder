@@ -11,8 +11,8 @@ Logger.info("== Seeding Examples from CSV ==")
 Logger.info("Reading CSV file")
 
 file_content =
-  case File.read("examples.tsv") do
-    {:ok, content} ->
+  case :zip.extract('priv/data/examples.zip', [:memory]) do
+    {:ok, [{_filename, content}]} ->
       content
 
     {:error, reason} ->
@@ -21,8 +21,10 @@ file_content =
 
 Logger.info("Parsing CSV content")
 
+# TODO - stream this?
 parsed_content = MyParser.parse_string(file_content)
 
+# TODO - unoptimized, needs chunked stream
 for [japanese, english] <- parsed_content do
   Repo.insert!(%Example{japanese: japanese, english: english})
 end
