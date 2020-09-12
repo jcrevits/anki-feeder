@@ -8,51 +8,26 @@ defmodule AnkiFeeder.Mnemo do
   alias AnkiFeeder.Mnemo.{Example, Term}
   alias AnkiFeeder.Repo
 
-  @doc """
-  Returns the list of terms.
-
-  ## Examples
-
-      iex> list_terms()
-      [%Term{}, ...]
-
-  """
   def list_terms do
     query = from t in Term, select: t
 
     query
-    |> limit(20)
     |> Repo.all()
   end
 
-  @doc """
-  Gets a single term.
+  def list_terms(page, per_page) do
+    query =
+      from t in Term,
+        offset: ^((page - 1) * per_page),
+        limit: ^per_page,
+        select: t
 
-  Raises `Ecto.NoResultsError` if the Term does not exist.
+    query
+    |> Repo.all()
+  end
 
-  ## Examples
-
-      iex> get_term!(123)
-      %Term{}
-
-      iex> get_term!(456)
-      ** (Ecto.NoResultsError)
-
-  """
   def get_term!(id), do: Repo.get!(Term, id)
 
-  @doc """
-  Creates a term.
-
-  ## Examples
-
-      iex> create_term(%{field: value})
-      {:ok, %Term{}}
-
-      iex> create_term(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_term(attrs \\ %{}) do
     %Term{}
     |> Term.changeset(attrs)

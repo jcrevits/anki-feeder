@@ -10,7 +10,7 @@
       <th></th>
     </tr>
   </thead>
-  <tbody id="terms">
+  <tbody id="terms" phx-update="append">
     <%= for term <- @terms do %>
       <tr id="term-<%= term.id %>">
         <td><%= term.kanji %></td>
@@ -24,3 +24,5 @@
     <% end %>
   </tbody>
 </table>
+
+<div id="footer" phx-hook="InfiniteScroll"></div>

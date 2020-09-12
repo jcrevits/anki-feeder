@@ -5,7 +5,23 @@ defmodule AnkiFeederWeb.TermLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :terms, list_terms())}
+    socket =
+      socket
+      # TODO make per_page modifiable in UI
+      |> assign(page: 1, per_page: 20)
+      |> load_terms()
+
+    {:ok, socket, temporary_assigns: [terms: []]}
+  end
+
+  @impl true
+  def handle_event("load-more", _, socket) do
+    socket =
+      socket
+      |> update(:page, &(&1 + 1))
+      |> load_terms()
+
+    {:noreply, socket}
   end
 
   @impl true
@@ -19,7 +35,7 @@ defmodule AnkiFeederWeb.TermLive.Index do
     |> assign(:term, nil)
   end
 
-  defp list_terms do
-    Mnemo.list_terms()
+  defp load_terms(%{assigns: %{page: page, per_page: per_page}} = socket) do
+    assign(socket, terms: Mnemo.list_terms(page, per_page))
   end
 end
