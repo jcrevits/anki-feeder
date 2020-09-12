@@ -20,6 +20,8 @@
           </ul>
         </nav>
         <a href="/"><strong>AnkiFeeder</strong></a>
+        <%= link "Terms", to: Routes.term_index_path(@conn, :index) %>
+        <%= link "Decks", to: Routes.deck_index_path(@conn, :index) %>
       </section>
     </header>
     <%= @inner_content %>
