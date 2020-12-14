@@ -18,6 +18,7 @@ defmodule AnkiFeederWeb.Router do
     pipe_through :browser
 
     live "/", CardLive.New, :new
+    live "/multiterms", CardLive.New, :multiterms
 
     live "/decks", DeckLive.Index, :index
 

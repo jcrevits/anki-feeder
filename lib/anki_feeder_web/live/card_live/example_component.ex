@@ -4,7 +4,7 @@ defmodule AnkiFeederWeb.Card.ExampleComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <div class="flex flex-col flex-shrink px-20">
+    <div class="flex flex-col flex-shrink px-5 w-1/3">
       <%= if length(@examples) > 0 do %>
         <em>Found <%= length(@examples) %>+ examples.</em>
       <% end %>

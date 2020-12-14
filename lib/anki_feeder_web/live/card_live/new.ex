@@ -9,6 +9,7 @@ defmodule AnkiFeederWeb.CardLive.New do
     socket =
       assign(socket,
         anki_running?: is_anki_running(socket),
+        multiterms: [],
         search_term: nil,
         selected_term: nil,
         term_results: nil,
@@ -20,36 +21,20 @@ defmodule AnkiFeederWeb.CardLive.New do
   end
 
   @impl true
-  def handle_event("search-terms", %{"search" => search}, socket) do
-    results = if search == "", do: nil, else: Mnemo.lookup_term(search)
-
-    socket =
-      if results && length(results) == 1 do
-        prepare_card(socket, List.first(results).id)
-      else
-        assign(socket,
-          examples: [],
-          selected_term: nil
-        )
-      end
-
-    socket =
-      assign(socket,
-        term_results: results,
-        search_term: search,
-        selected_example: %{id: nil, japanese: nil, english: nil}
-      )
-
+  def handle_params(_params, _url, socket) do
     {:noreply, socket}
   end
 
   @impl true
-  def handle_event("use-term", %{"term_id" => term_id}, socket) do
-    socket =
-      socket
-      |> prepare_card(term_id)
+  def handle_event("search-terms", %{"search" => search}, socket) do
+    {:noreply, search_term(socket, search)}
+  end
 
-    {:noreply, socket}
+  @impl true
+  def handle_event("use-term", %{"term_id" => term_id}, socket) do
+    term = Mnemo.get_term!(term_id)
+
+    {:noreply, prepare_card(socket, term)}
   end
 
   @impl true
@@ -72,22 +57,45 @@ defmodule AnkiFeederWeb.CardLive.New do
 
     case AnkiConnect.create_note(card_details) do
       {:ok, _} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Card added to Anki!")
-         |> assign(
-           search_term: nil,
-           term_results: nil,
-           examples: [],
-           selected_term: nil,
-           selected_example: %{id: nil, japanese: nil, english: nil}
-         )}
+        multiterms = List.delete_at(socket.assigns.multiterms, 0)
+
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Card added to Anki!")
+          |> assign(
+            search_term: nil,
+            term_results: nil,
+            examples: [],
+            selected_term: nil,
+            selected_example: %{id: nil, japanese: nil, english: nil},
+            multiterms: multiterms
+          )
+          |> search_term(List.first(multiterms))
+        }
 
       {:error, reason} ->
         {:noreply,
          socket
          |> put_flash(:error, "Error - #{inspect(reason)}")}
     end
+  end
+
+  @impl true
+  def handle_event(
+        "save-multiterms",
+        %{"multiterms" => %{"term-area" => multiterm_input}},
+        socket
+      ) do
+    multiterms = String.split(multiterm_input) |> Enum.map(&String.trim/1)
+
+    socket =
+      socket
+      |> assign(multiterms: multiterms)
+      |> search_term(List.first(multiterms))
+      |> push_patch(to: Routes.card_new_path(socket, :new))
+
+    {:noreply, socket}
   end
 
   defp is_anki_running(socket) do
@@ -99,11 +107,31 @@ defmodule AnkiFeederWeb.CardLive.New do
     end
   end
 
-  defp prepare_card(socket, term_id) do
-    selected_term = Mnemo.get_term!(term_id)
-    examples = Mnemo.lookup_examples(selected_term.kanji)
+  defp search_term(socket, search) do
+    # TODO can this be improved?
+    results = if search, do: Mnemo.lookup_term(search), else: nil
 
-    assign(socket, selected_term: selected_term, examples: examples)
+    socket =
+      if results && length(results) == 1 do
+        prepare_card(socket, List.first(results))
+      else
+        assign(socket,
+          selected_term: nil,
+          examples: []
+        )
+      end
+
+    assign(socket,
+      term_results: results,
+      search_term: search,
+      selected_example: %{id: nil, japanese: nil, english: nil}
+    )
+  end
+
+  defp prepare_card(socket, term) do
+    examples = Mnemo.lookup_examples(term.kanji)
+
+    assign(socket, selected_term: term, examples: examples)
   end
 
   defp highlight_in_example(text, term) do
