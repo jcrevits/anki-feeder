@@ -31,7 +31,7 @@ Hooks.InfiniteScroll = {
     this.observer.observe(this.el)
   },
   destroyed() {
-    this.observer.disconnecte();
+    this.observer.disconnect();
   }
 }
 
