@@ -6,7 +6,7 @@ defmodule AnkiFeederWeb.Card.AddCardComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <div class="flex flex-col">
+    <div class="flex flex-col w-1/4">
       <%= case @selected_term do %>
         <% nil -> %>
 

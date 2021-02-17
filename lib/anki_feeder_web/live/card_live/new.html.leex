@@ -1,5 +1,17 @@
+<%= if @live_action == :multiterms do %>
+  <%= live_modal @socket, AnkiFeederWeb.CardLive.MultitermComponent,
+    multiterms: @multiterms,
+    return_to: Routes.card_new_path(@socket, :new) %>
+<% end %>
+
 <div class="flex flex-row flex-evenly">
-  <div class="flex flex-col">
+  <div class="flex flex-col w-1/3">
+    <div class="flex items-center pb-5">
+      <%= live_patch "Add terms (#{length(@multiterms)})",
+            to: Routes.card_new_path(@socket, :multiterms),
+            class: "border rounded-md bg-green-500 text-white font-bold px-3 py-2"
+      %>
+    </div>
     <div class="flex flex-row">
       <div id="search-box">
         <form phx-submit="search-terms">
@@ -28,15 +40,15 @@
 
         <% results -> %>
           <%= for term <- results do %>
-            <div class="row term-search-row" phx-click="use-term" phx-value-term_id="<%= term.id %>">
-              <div class="column">
-                <div class="row">
+            <div class="term-search-row px-2" phx-click="use-term" phx-value-term_id="<%= term.id %>">
+              <div class="flex flex-col">
+                <div>
                   <strong><%= term.kanji %></strong>
                 </div>
-                <div class="row">
+                <div>
                   <em><%= term.reading %></em>
                 </div>
-                <div class="row">
+                <div>
                   <span><%= term.definition %></span>
                 </div>
               </div>
