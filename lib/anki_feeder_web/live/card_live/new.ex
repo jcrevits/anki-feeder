@@ -1,14 +1,15 @@
 defmodule AnkiFeederWeb.CardLive.New do
   use AnkiFeederWeb, :live_view
 
+  alias AnkiFeeder.AnkiConnect
   alias AnkiFeeder.Mnemo
-  alias AnkiFeeder.Mnemo.{AnkiConnect, Example}
+  alias AnkiFeeder.Mnemo.Example
 
   @impl true
   def mount(_params, _session, socket) do
     socket =
       assign(socket,
-        anki_running?: is_anki_running(socket),
+        anki_running?: AnkiConnect.is_running?(),
         multiterms: [],
         search_term: nil,
         selected_term: nil,

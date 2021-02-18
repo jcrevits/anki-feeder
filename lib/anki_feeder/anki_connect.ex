@@ -1,4 +1,4 @@
-defmodule AnkiFeeder.Mnemo.AnkiConnect do
+defmodule AnkiFeeder.AnkiConnect do
   alias HTTPoison
   alias Jason
 
@@ -23,6 +23,11 @@ defmodule AnkiFeeder.Mnemo.AnkiConnect do
       error_response ->
         error_response
     end
+  end
+
+  @spec is_running?() :: boolean()
+  def is_running?() do
+    version() == {:ok, nil}
   end
 
   @spec deck_names_and_ids() :: {:ok, list(map)} | {:error, String.t()}
