@@ -14,9 +14,10 @@ defmodule AnkiFeeder.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: AnkiFeeder.PubSub},
       # Start the Endpoint (http/https)
-      AnkiFeederWeb.Endpoint
+      AnkiFeederWeb.Endpoint,
       # Start a worker by calling: AnkiFeeder.Worker.start_link(arg)
       # {AnkiFeeder.Worker, arg}
+      AnkiFeeder.StatusChecker
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
