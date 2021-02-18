@@ -18,6 +18,8 @@ defmodule AnkiFeederWeb.CardLive.New do
         selected_example: %{id: nil, japanese: nil, english: nil}
       )
 
+    AnkiFeederWeb.Endpoint.subscribe("anki-connect")
+
     {:ok, socket}
   end
 
@@ -99,13 +101,12 @@ defmodule AnkiFeederWeb.CardLive.New do
     {:noreply, socket}
   end
 
-  defp is_anki_running(socket) do
-    with true <- connected?(socket),
-         {:ok, nil} <- AnkiConnect.version() do
-      true
-    else
-      _ -> false
-    end
+  @impl true
+  def handle_info(
+        %{event: "status-update", payload: %{status: status}, topic: "anki-connect"},
+        socket
+      ) do
+    {:noreply, assign(socket, anki_running?: status)}
   end
 
   defp search_term(socket, search) do
