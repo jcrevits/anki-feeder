@@ -1,7 +1,7 @@
 defmodule AnkiFeederWeb.DeckLive.Index do
   use AnkiFeederWeb, :live_view
 
-  alias AnkiFeeder.Mnemo.AnkiConnect
+  alias AnkiFeeder.AnkiConnect
 
   @impl true
   def mount(_params, _session, socket) do
