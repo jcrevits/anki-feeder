@@ -13,6 +13,10 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - start Anki
 - replace the hardcoded deck and model names with yours as well as the field names in `anki_connect.ex`
 
+## Or with docker
+1. `docker-compose run web mix ecto.setup`
+1. `docker-compose up`
+
 ### Screenshot
 ![App Screenshot](/priv/screenshot.png)
 

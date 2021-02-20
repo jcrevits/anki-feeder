@@ -1,0 +1,26 @@
+version: "3.6"
+services:
+  db:
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    image: "postgres:13-alpine"
+    restart: always
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+  web:
+    build: .
+    depends_on:
+      - db
+    environment:
+      MIX_ENV: dev
+      ANKI_CONNECT_URL: http://host.docker.internal:8765
+      POSTGRES_HOST: db
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+volumes:
+  pgdata:

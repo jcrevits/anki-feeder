@@ -3,7 +3,7 @@ defmodule AnkiFeeder.AnkiConnect do
   alias Jason
 
   # default AnkiConnect URL
-  @anki_connect_url "http://localhost:8765"
+  @anki_connect_url System.get_env("ANKI_CONNECT_URL", "http://localhost:8765")
   @json_headers [{"Content-Type", "application/json"}]
 
   @deck_name "自分の単語"
