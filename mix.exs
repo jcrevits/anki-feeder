@@ -5,7 +5,7 @@ defmodule AnkiFeeder.MixProject do
     [
       app: :anki_feeder,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -62,14 +62,18 @@ defmodule AnkiFeeder.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
-      "ecto.setup": [
-        "ecto.create",
-        "ecto.migrate",
-        "run priv/repo/seeds_jdict.exs",
-        "run priv/repo/seeds_examples.exs"
-      ],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "seeding"],
+      seeding: seed_tasks_per_env(),
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
+  end
+
+  defp seed_tasks_per_env() do
+    case Mix.env() do
+      # the order is important
+      :dev -> ["run priv/repo/seeds_jdict.exs", "run priv/repo/seeds_examples.exs"]
+      _ -> []
+    end
   end
 end

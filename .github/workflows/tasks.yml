@@ -1,0 +1,63 @@
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+    strategy:
+      matrix:
+        otp: [23.2.1]
+        elixir: [1.11.3]
+
+    services:
+      db:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: seal_test
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    # Based on:
+    # https://hashrocket.com/blog/posts/build-the-ultimate-elixir-ci-with-github-actions
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup elixir
+        uses: actions/setup-elixir@v1.5
+        with:
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+          experimental-otp: true
+
+      - name: Retrieve Mix dependencies cache
+        uses: actions/cache@v2
+        id: mix-cache # id to use in retrieve action
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - name: Install and build Mix dependencies
+        if: steps.mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+          mix deps.compile
+
+      - name: Compile without warnings
+        run: mix compile --warnings-as-errors
+
+      - name: Check format
+        run: mix format --check-formatted
+
+      - name: Setup DB
+        run: mix ecto.setup
+
+      - name: Run tests
+        run: mix test
