@@ -7,10 +7,22 @@
 <div class="flex flex-row flex-evenly">
   <div class="flex flex-col w-1/3">
     <div class="flex items-center pb-5">
-      <%= live_patch "Add terms (#{length(@multiterms)})",
-            to: Routes.card_new_path(@socket, :multiterms),
-            class: "border rounded-md bg-green-500 text-white font-bold px-3 py-2"
-      %>
+      <div>
+        <%= live_patch "Add terms (#{length(@multiterms)})",
+              to: Routes.card_new_path(@socket, :multiterms),
+              class: "border border-current rounded-md bg-green-500 text-white font-bold px-3 py-2"
+        %>
+      </div>
+      <div>
+        <button type="button" phx-click="skip-term" <%= if length(@multiterms) < 1, do: "disabled" %> class="border border-current rounded-md bg-yellow-500 text-white font-bold px-3 py-2">
+          Skip
+        </button>
+      </div>
+      <div>
+        <button type="button" phx-click="clear-terms" <%= if length(@multiterms) < 1, do: "disabled" %> class="border border-current rounded-md bg-red-500 text-white font-bold px-3 py-2">
+          Clear
+        </button>
+      </div>
     </div>
     <div class="flex flex-row">
       <div id="search-box">

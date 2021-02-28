@@ -34,9 +34,8 @@ defmodule AnkiFeeder.Mnemo do
     |> Repo.insert()
   end
 
-  def lookup_term(search) do
-    lookup_term_exact(search)
-  end
+  def lookup_term(nil), do: []
+  def lookup_term(search), do: lookup_term_exact(search)
 
   def lookup_term_exact(search) do
     query = from t in Term, where: t.kanji == ^search, select: t
