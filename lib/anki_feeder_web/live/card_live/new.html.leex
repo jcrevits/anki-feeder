@@ -14,12 +14,14 @@
         %>
       </div>
       <div>
-        <button type="button" phx-click="skip-term" <%= if length(@multiterms) < 1, do: "disabled" %> class="border border-current rounded-md bg-yellow-500 text-white font-bold px-3 py-2">
+        <button id="skip-button" type="button" phx-click="skip-term" <%= if length(@multiterms) < 1, do: "disabled" %>
+            class="border border-current rounded-md bg-yellow-500 text-white font-bold px-3 py-2">
           Skip
         </button>
       </div>
       <div>
-        <button type="button" phx-click="clear-terms" <%= if length(@multiterms) < 1, do: "disabled" %> class="border border-current rounded-md bg-red-500 text-white font-bold px-3 py-2">
+        <button id="clear-button" type="button" phx-click="clear-terms" <%= if length(@multiterms) < 1, do: "disabled" %>
+            class="border border-current rounded-md bg-red-500 text-white font-bold px-3 py-2">
           Clear
         </button>
       </div>
@@ -28,6 +30,7 @@
       <div id="search-box">
         <form phx-submit="search-terms">
           <input type="text"
+                  id="search-input"
                   name="search"
                   value="<%= @search_term %>"
                   placeholder="search for a word"

@@ -6,12 +6,12 @@ defmodule AnkiFeederWeb.Card.AddCardComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <div class="flex flex-col w-1/4">
+    <div id="add-card-component" class="flex flex-col w-1/4">
       <%= case @selected_term do %>
         <% nil -> %>
 
         <% _ -> %>
-          <%= f = form_for(:new_card, "#", phx_submit: "save-card")  %>
+          <%= f = form_for :new_card, "#", id: "add-card-form", phx_submit: "save-card"  %>
             <%= label f, :kanji %>
             <%= text_input f, :kanji, value: @selected_term.kanji %>
 

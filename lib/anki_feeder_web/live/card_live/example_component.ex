@@ -9,9 +9,9 @@ defmodule AnkiFeederWeb.Card.ExampleComponent do
         <em>Found <%= length(@examples) %>+ examples.</em>
       <% end %>
 
-      <%= for example <- @examples do %>
+      <%= for {example, index} <- Enum.with_index(@examples) do %>
         <hr class="example-hr" />
-        <div class="row term-search-row py-2 <%= selected_class(@selected_example, example) %>"
+        <div id="example-row-<%= index %>" class="row term-search-row py-2 <%= selected_class(@selected_example, example) %>"
             phx-click="use-example"
             phx-value-example_id="<%= example.id %>"
             phx-value-japanese="<%= example.japanese %>"
