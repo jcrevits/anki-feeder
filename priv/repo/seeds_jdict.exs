@@ -1,5 +1,4 @@
-alias AnkiFeeder.Repo
-alias AnkiFeeder.Mnemo.Term
+alias AnkiFeeder.Utils
 
 import SweetXml
 
@@ -27,7 +26,7 @@ kanji_or_reading = fn term ->
   end
 end
 
-# TODO - this uses way too much memory, need to optimize it with a stream
+# TODO - this uses too much memory, need to optimize it with a stream but with the XML parser :(
 xml_content =
   xpath(
     contents,
@@ -40,9 +39,9 @@ xml_content =
 
 Logger.info("Preparing structs")
 
-term_structs =
+terms =
   Enum.map(xml_content, fn term ->
-    %Term{
+    %{
       kanji: kanji_or_reading.(term),
       kanji_others: Enum.join(Enum.drop(term.kanji, 1), ", "),
       reading: Enum.join(term.reading, ", "),
@@ -53,9 +52,6 @@ term_structs =
 
 Logger.info("Inserting content")
 
-# TODO - unoptimized, needs chunked stream
-for term <- term_structs do
-  Repo.insert!(term)
-end
+Utils.bulk_insert(terms, Term)
 
 Logger.info("Inserted JMdict terms")
