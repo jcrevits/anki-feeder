@@ -9,7 +9,7 @@ defmodule AnkiFeeder.Mnemo.Term do
     field :definition, :string, nullable: false
     field :misc, :string, nullable: true
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @doc false

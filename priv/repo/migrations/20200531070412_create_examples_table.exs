@@ -6,7 +6,7 @@ defmodule AnkiFeeder.Repo.Migrations.CreateExamplesTable do
       add :japanese, :text, null: false
       add :english, :text, null: false
 
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
 
     create index(:examples, [:japanese])

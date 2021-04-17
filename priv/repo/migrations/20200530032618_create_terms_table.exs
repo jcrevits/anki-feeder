@@ -9,7 +9,7 @@ defmodule AnkiFeeder.Repo.Migrations.CreateTerms do
       add :definition, :text, null: false
       add :misc, :text, null: true
 
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
 
     create index(:terms, [:kanji])

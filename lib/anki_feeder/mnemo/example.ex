@@ -6,7 +6,7 @@ defmodule AnkiFeeder.Mnemo.Example do
     field :japanese, :string, nullable: false
     field :english, :string, nullable: false
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @doc false
