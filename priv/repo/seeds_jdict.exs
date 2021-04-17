@@ -6,7 +6,6 @@ import SweetXml
 require Logger
 
 Logger.info("== Seeding JMdict content ==")
-
 Logger.info("Reading JMdict file")
 
 contents =
@@ -15,10 +14,18 @@ contents =
       content
 
     {:error, reason} ->
-      IO.puts(reason)
+      Logger.error(reason)
   end
 
 Logger.info("Parsing XML content")
+
+kanji_or_reading = fn term ->
+  if length(term.kanji) == 0 do
+    List.first(term.reading)
+  else
+    List.first(term.kanji)
+  end
+end
 
 # TODO - this uses way too much memory, need to optimize it with a stream
 xml_content =
@@ -32,14 +39,6 @@ xml_content =
   )
 
 Logger.info("Preparing structs")
-
-kanji_or_reading = fn term ->
-  if length(term.kanji) == 0 do
-    List.first(term.reading)
-  else
-    List.first(term.kanji)
-  end
-end
 
 term_structs =
   Enum.map(xml_content, fn term ->

@@ -16,7 +16,7 @@ file_content =
       content
 
     {:error, reason} ->
-      IO.puts(reason)
+      Logger.error(reason)
   end
 
 Logger.info("Parsing CSV content")
