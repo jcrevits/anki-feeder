@@ -1,5 +1,3 @@
-alias AnkiFeeder.Mnemo.Example
-alias AnkiFeeder.Repo
 
 alias NimbleCSV
 
@@ -21,12 +19,8 @@ file_content =
 
 Logger.info("Parsing CSV content")
 
-# TODO - stream this?
-parsed_content = MyParser.parse_string(file_content)
-
-# TODO - unoptimized, needs chunked stream
-for [japanese, english] <- parsed_content do
-  Repo.insert!(%Example{japanese: japanese, english: english})
-end
+MyParser.parse_string(file_content)
+|> Stream.map(fn [japanese, english] -> %{japanese: japanese, english: english} end)
+|> AnkiFeeder.Utils.bulk_insert(AnkiFeeder.Mnemo.Example)
 
 Logger.info("Inserted examples")

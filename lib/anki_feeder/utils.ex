@@ -2,7 +2,7 @@ defmodule AnkiFeeder.Utils do
   require Logger
 
   def bulk_insert(records, module, opts \\ []) do
-    batch_size = opts[:batch_size] || 1_000
+    batch_size = opts[:batch_size] || 2_000
 
     records
     |> Stream.map(&add_timestamps/1)
