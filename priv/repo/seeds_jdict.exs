@@ -52,6 +52,6 @@ terms =
 
 Logger.info("Inserting content")
 
-Utils.bulk_insert(terms, Term)
+Utils.bulk_insert(terms, AnkiFeeder.Mnemo.Term)
 
 Logger.info("Inserted JMdict terms")
