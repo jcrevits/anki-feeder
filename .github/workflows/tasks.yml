@@ -7,8 +7,8 @@ jobs:
       MIX_ENV: test
     strategy:
       matrix:
-        otp: [23.2.1]
-        elixir: [1.11.3]
+        otp: [24.0.3]
+        elixir: [1.12.1]
 
     services:
       db:
