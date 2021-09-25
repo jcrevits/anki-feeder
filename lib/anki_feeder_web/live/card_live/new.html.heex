@@ -14,13 +14,13 @@
         %>
       </div>
       <div>
-        <button id="skip-button" type="button" phx-click="skip-term" <%= if length(@multiterms) < 1, do: "disabled" %>
+        <button id="skip-button" type="button" phx-click="skip-term" {if length(@multiterms) < 1, do: [disabled: "disabled"]}
             class="border border-current rounded-md bg-yellow-500 text-white font-bold px-3 py-2">
           Skip
         </button>
       </div>
       <div>
-        <button id="clear-button" type="button" phx-click="clear-terms" <%= if length(@multiterms) < 1, do: "disabled" %>
+        <button id="clear-button" type="button" phx-click="clear-terms" {if length(@multiterms) < 1, do: [disabled: "disabled"]}
             class="border border-current rounded-md bg-red-500 text-white font-bold px-3 py-2">
           Clear
         </button>
@@ -32,7 +32,7 @@
           <input type="text"
                   id="search-input"
                   name="search"
-                  value="<%= @search_term %>"
+                  value={@search_term}
                   placeholder="search for a word"
                   autofocus="on"
                   autocomplete="off"
@@ -55,7 +55,7 @@
 
         <% results -> %>
           <%= for term <- results do %>
-            <div class="term-search-row px-2" phx-click="use-term" phx-value-term_id="<%= term.id %>">
+            <div class="term-search-row px-2" phx-click="use-term" phx-value-term_id={term.id}>
               <div class="flex flex-col">
                 <div>
                   <strong><%= term.kanji %></strong>

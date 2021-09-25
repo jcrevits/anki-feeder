@@ -12,7 +12,7 @@
   </thead>
   <tbody id="terms" phx-update="append">
     <%= for term <- @terms do %>
-      <tr id="term-<%= term.id %>">
+      <tr id="term-{term.id}">
         <td><%= term.kanji %></td>
         <td><%= term.reading %></td>
         <td><%= term.definition %></td>
