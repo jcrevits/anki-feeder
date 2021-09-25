@@ -33,11 +33,11 @@ defmodule AnkiFeeder.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5"},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_view, "~> 0.15.4", override: true},
+      {:phoenix, "~> 1.6"},
+      {:phoenix_html, "~> 3.0.4", override: true},
+      {:phoenix_live_view, "~> 0.16"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.4"},
+      {:phoenix_live_dashboard, "~> 0.5.2", override: true},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
@@ -48,7 +48,7 @@ defmodule AnkiFeeder.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:sweet_xml, "~> 0.6.6"},
+      {:sweet_xml, "~> 0.7"},
       {:httpoison, "~> 1.6"}
     ]
   end
