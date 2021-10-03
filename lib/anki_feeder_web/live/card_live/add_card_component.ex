@@ -5,13 +5,13 @@ defmodule AnkiFeederWeb.Card.AddCardComponent do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div id="add-card-component" class="flex flex-col w-1/4">
       <%= case @selected_term do %>
         <% nil -> %>
 
         <% _ -> %>
-          <%= f = form_for :new_card, "#", id: "add-card-form", phx_submit: "save-card"  %>
+          <.form let={f} for={:new_card} id="add-card-form" phx_submit="save-card">
             <%= label f, :kanji %>
             <%= text_input f, :kanji, value: @selected_term.kanji %>
 
@@ -28,7 +28,7 @@ defmodule AnkiFeederWeb.Card.AddCardComponent do
             <%= textarea f, :en_example, value: @selected_example.english %>
 
             <%= submit "Add to Anki", disabled: is_card_submittable(@selected_term), class: "text-white bg-blue-500 p-2" %>
-          </form>
+          </.form>
       <% end %>
     </div>
     """
