@@ -14,13 +14,13 @@
         %>
       </div>
       <div>
-        <button id="skip-button" type="button" phx-click="skip-term" {if length(@multiterms) < 1, do: [disabled: "disabled"]}
+        <button id="skip-button" type="button" phx-click="skip-term" disabled={Enum.empty?(@multiterms)}
             class="border border-current rounded-md bg-yellow-500 text-white font-bold px-3 py-2">
           Skip
         </button>
       </div>
       <div>
-        <button id="clear-button" type="button" phx-click="clear-terms" {if length(@multiterms) < 1, do: [disabled: "disabled"]}
+        <button id="clear-button" type="button" phx-click="clear-terms" disabled={Enum.empty?(@multiterms)}
             class="border border-current rounded-md bg-red-500 text-white font-bold px-3 py-2">
           Clear
         </button>
