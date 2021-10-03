@@ -47,7 +47,7 @@ defmodule AnkiFeeder.AnkiConnect do
     end
   end
 
-  @spec create_note(map) :: {:ok, nil} | {:error, String.t()}
+  @spec create_note(map) :: {:ok, any()} | {:error, String.t()}
   def create_note(%{
         "kanji" => kanji,
         "reading" => reading,
