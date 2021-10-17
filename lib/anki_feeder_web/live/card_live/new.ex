@@ -145,19 +145,19 @@ defmodule AnkiFeederWeb.CardLive.New do
     term_results = Mnemo.lookup_term(search)
 
     socket =
-      if length(term_results) == 1 do
-        prepare_card(socket, List.first(term_results))
-      else
-        assign(socket,
-          selected_term: nil,
-          examples: []
-        )
+      case term_results do
+        [single_term] -> prepare_card(socket, single_term)
+        _ -> assign(socket, selected_term: nil, examples: [])
       end
 
-    assign(socket,
-      term_results: term_results,
-      selected_example: %{id: nil, japanese: nil, english: nil}
-    )
+    selected_example =
+      if length(socket.assigns.examples) == 1 do
+        List.first(socket.assigns.examples)
+      else
+        %{id: nil, japanese: nil, english: nil}
+      end
+
+    assign(socket, term_results: term_results, selected_example: selected_example)
   end
 
   defp prepare_card(socket, term) do
