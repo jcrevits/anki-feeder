@@ -153,7 +153,13 @@ defmodule AnkiFeederWeb.CardLive.New do
 
     selected_example =
       if length(socket.assigns.examples) == 1 do
-        List.first(socket.assigns.examples)
+        example = List.first(socket.assigns.examples)
+
+        %Example{
+          id: example.id,
+          english: example.english,
+          japanese: highlight_in_example(example.japanese, socket.assigns.selected_term)
+        }
       else
         %{id: nil, japanese: nil, english: nil}
       end
