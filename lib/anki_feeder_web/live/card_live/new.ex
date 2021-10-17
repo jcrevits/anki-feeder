@@ -64,6 +64,7 @@ defmodule AnkiFeederWeb.CardLive.New do
       socket
       |> assign(multiterms: multiterms, search_term: first_term(multiterms))
       |> search_term()
+      |> clear_flash()
 
     {:noreply, socket}
   end
