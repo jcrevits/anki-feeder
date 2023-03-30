@@ -14,7 +14,7 @@ defmodule AnkiFeederWeb do
 
   Do NOT define functions inside the quoted expressions
   below. Instead, define any helper function in modules
-  and import those modules here.
+  and import those modules here. Foo2
   """
 
   def controller do
